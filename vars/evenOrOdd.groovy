@@ -9,7 +9,7 @@ def call(int buildnumber) {
                     }
                 }
             }
-        }   else {
+    }   else {
             pipeline {
                 agent any
                 stages {
