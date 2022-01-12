@@ -37,9 +37,6 @@ spec:
     }
   
     stages {
-        stage ('read properties file') {
-
-        }
         stage ('Enable unit testing when payload object value is true') {
             when {
                 allOf {
