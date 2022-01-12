@@ -1,26 +1,27 @@
 call () {
+    @Library("lab3") _
     pipeline {
         agent {
             kubernetes {
                 yaml '''
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: build
-    image: 'maven:3.8.3-jdk-11'
-    command:
-    - cat
-    tty: true
-    '''
+    apiVersion: v1
+    kind: Pod
+    spec:
+    containers:
+    - name: build
+        image: 'maven:3.8.3-jdk-11'
+        command:
+        - cat
+        tty: true
+        '''
             defaultContainer 'build'
             }
         }
-    
+        
         triggers {
-            eventTrigger jmespathQuery("unitTestEnable=='true' || unitTestEnable=='false'")
+            eventTrigger jmespathQuery("labs[*].lab")
         }
-  
+    
         stages {
             stage ('Enable unit testing when payload object value is true') {
                 when {
@@ -44,7 +45,7 @@ spec:
                     echo 'User disabled unit testing'
                 }
             }
-        
+            
             stage ('buildStart Time Stage') {
                 steps {
                     buildStart ()
@@ -80,11 +81,11 @@ spec:
                 success {
                     buildResultsEmail("Successful")                
                 }
-            
+                
                 failure {
                     buildResultsEmail("Failure")
                 }       
-            
+                
         }
-    }
-}  
+    } 
+}
