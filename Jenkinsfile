@@ -1,19 +1,4 @@
 @Library("lab3") _
-
-def d_values = [
-    'default.value1':'1',
-    'default.value2':'2',
-]
-
-def properties = [:]
-
-podTemplate {
-    node(POD_LABEL) {
-        checkout scm 
-        properties = readProperties(defaults: d, file: 'build.properties')
-    }
-}
-
 pipeline {
     agent {
         kubernetes {
@@ -59,7 +44,17 @@ spec:
                 echo 'User disabled unit testing'
             }
         }
-        
+        stage ('declare properties file') {
+            script {
+                def d_values = [
+                   'default.value1':'1',
+                   'default.value2':'2',
+                ]
+                def properties = [:]
+
+                properties = readProperties(defaults: d, file: 'build.properties')
+            }
+        }
         stage ('buildStart Time Stage') {
             when {
                 equals (expected: 'a', actual: {$properties["default.value1"]})
@@ -69,11 +64,17 @@ spec:
             }
         }
         stage ('build') {
+            when {
+                equals (expected: 'b', actual: {$properties["default.value1"]})
+            }
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
+            when {
+                equals (expected: 'b', actual: {$properties["default.value1"]})
+            }
             steps {
                 sh 'mvn test'
             }
@@ -83,12 +84,18 @@ spec:
                 }
             }
         }
-        stage ('deploy') {
+        stage ('Deploy') {
+            when {
+                equals (expected: 'b', actual: {$properties["default.value1"]})
+            }
             steps {
                 sh './scripts/deliver.sh'
                 }
         }
         stage ('buildEnd Time Stage') {
+            when {
+                equals (expected: 'b', actual: {$properties["default.value1"]})
+            }
             steps {
                 buildEnd ()
             }
