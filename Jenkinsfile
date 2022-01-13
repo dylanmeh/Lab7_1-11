@@ -45,16 +45,18 @@ spec:
             }
         }
         stage ('declare properties file') {
-            script {
-                def d_values = [
-                   'default.value1':'1',
-                   'default.value2':'2',
-                ]
-                def properties = [:]
+            steps {
+                script {
+                    def d_values = [
+                    'default.value1':'1',
+                    'default.value2':'2',
+                    ]
+                    def properties = [:]
 
-                properties = readProperties(defaults: d_values, file: 'build.properties')
+                    properties = readProperties(defaults: d_values, file: 'build.properties')
+                }
             }
-        }
+        }    
         stage ('buildStart Time Stage') {
             when {
                 equals (expected: 'true', actual: {$properties["buildStart"]})
