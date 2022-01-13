@@ -27,7 +27,7 @@ spec:
                 script {
                     def properties = [:]
 
-                    properties = readProperties(defaults: d_values, file: 'build.properties')
+                    properties = readProperties(file: 'build.properties')
                 }
             }
         }  
