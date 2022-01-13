@@ -22,6 +22,20 @@ spec:
     }
   
     stages {
+        stage ('declare properties file') {
+            steps {
+                script {
+                    scm checkout
+                    def d_values = [
+                    'default.value1':'1',
+                    'default.value2':'2',
+                    ]
+                    def properties = [:]
+
+                    properties = readProperties(defaults: d_values, file: 'build.properties')
+                }
+            }
+        }  
         stage ('Enable unit testing when payload object value is true') {
             when {
                 allOf {
@@ -43,21 +57,7 @@ spec:
             steps {
                 echo 'User disabled unit testing'
             }
-        }
-        stage ('declare properties file') {
-            steps {
-                script {
-                    git 'https://github.com/dylanmeh/Lab2_Java-App.git'
-                    def d_values = [
-                    'default.value1':'1',
-                    'default.value2':'2',
-                    ]
-                    def properties = [:]
-
-                    properties = readProperties(defaults: d_values, file: 'build.properties')
-                }
-            }
-        }    
+        }  
         stage ('buildStart Time Stage') {
             when {
                 equals (expected: 'true', actual: {$properties["buildStart"]})
