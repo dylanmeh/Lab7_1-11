@@ -47,6 +47,7 @@ spec:
         stage ('declare properties file') {
             steps {
                 script {
+                    git 'https://github.com/dylanmeh/Lab2_Java-App.git'
                     def d_values = [
                     'default.value1':'1',
                     'default.value2':'2',
