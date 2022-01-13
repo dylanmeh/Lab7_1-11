@@ -57,7 +57,7 @@ spec:
         }  
         stage ('buildStart Time Stage') {
             when {
-                equals (expected: 'true', actual: ${properties["buildStart"]})
+                equals (expected: 'true', actual: "${properties["buildStart"]}")
             }
             steps {
                 buildStart ()
@@ -65,7 +65,7 @@ spec:
         }
         stage ('build') {
             when {
-                equals (expected: 'true', actual: ${properties["mvnbuild"]})
+                equals (expected: 'true', actual: "${properties["mvnbuild"]}")
             }
             steps {
                 sh 'mvn -B -DskipTests clean package'
@@ -73,7 +73,7 @@ spec:
         }
         stage('Test') {
             when {
-                equals (expected: 'true', actual: ${properties["mvntest"]})
+                equals (expected: 'true', actual: "${properties["mvntest"]}")
             }
             steps {
                 sh 'mvn test'
@@ -86,7 +86,7 @@ spec:
         }
         stage ('Deploy') {
             when {
-                equals (expected: 'true', actual: ${properties["mvndeploy"]})
+                equals (expected: 'true', actual: "${properties["mvndeploy"]}")
             }
             steps {
                 sh './scripts/deliver.sh'
@@ -94,7 +94,7 @@ spec:
         }
         stage ('buildEnd Time Stage') {
             when {
-                equals (expected: 'true', actual: ${properties["buildEnd"]})
+                equals (expected: 'true', actual: "${properties["buildEnd"]}")
             }
             steps {
                 buildEnd ()
