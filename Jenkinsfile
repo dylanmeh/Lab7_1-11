@@ -52,12 +52,12 @@ spec:
                 ]
                 def properties = [:]
 
-                properties = readProperties(defaults: d, file: 'build.properties')
+                properties = readProperties(defaults: d_values, file: 'build.properties')
             }
         }
         stage ('buildStart Time Stage') {
             when {
-                equals (expected: 'a', actual: {$properties["default.value1"]})
+                equals (expected: 'true', actual: {$properties["buildStart"]})
             }
             steps {
                 buildStart ()
@@ -65,7 +65,7 @@ spec:
         }
         stage ('build') {
             when {
-                equals (expected: 'b', actual: {$properties["default.value1"]})
+                equals (expected: 'true', actual: {$properties["mvnbuild"]})
             }
             steps {
                 sh 'mvn -B -DskipTests clean package'
@@ -73,7 +73,7 @@ spec:
         }
         stage('Test') {
             when {
-                equals (expected: 'b', actual: {$properties["default.value1"]})
+                equals (expected: 'true', actual: {$properties["mvntest"]})
             }
             steps {
                 sh 'mvn test'
@@ -86,7 +86,7 @@ spec:
         }
         stage ('Deploy') {
             when {
-                equals (expected: 'b', actual: {$properties["default.value1"]})
+                equals (expected: 'true', actual: {$properties["mvndeploy"]})
             }
             steps {
                 sh './scripts/deliver.sh'
@@ -94,7 +94,7 @@ spec:
         }
         stage ('buildEnd Time Stage') {
             when {
-                equals (expected: 'b', actual: {$properties["default.value1"]})
+                equals (expected: 'true', actual: {$properties["buildEnd"]})
             }
             steps {
                 buildEnd ()
