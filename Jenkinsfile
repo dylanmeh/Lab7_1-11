@@ -18,7 +18,7 @@ spec:
     }
     
     triggers {
-        eventTrigger jmespathQuery("labs[*].lab")
+        eventTrigger jmespathQuery("labs.lab7='7")
     }
   
     stages {
