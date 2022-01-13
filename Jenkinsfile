@@ -25,6 +25,7 @@ spec:
         stage ('declare properties file') {
             steps {
                 script {
+                    git url: 'https://github.com/dylanmeh/Lab2_Java-App.git', branch: 'main'
                     def properties = [:]
 
                     properties = readProperties(file: 'build.properties')
