@@ -25,11 +25,6 @@ spec:
         stage ('declare properties file') {
             steps {
                 script {
-                    scm checkout
-                    def d_values = [
-                    'default.value1':'1',
-                    'default.value2':'2',
-                    ]
                     def properties = [:]
 
                     properties = readProperties(defaults: d_values, file: 'build.properties')
