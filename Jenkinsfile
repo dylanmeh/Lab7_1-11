@@ -65,7 +65,7 @@ spec:
         }
         stage ('build') {
             when {
-                equals (expected: 'true', actual: ${properties["mvnbuild"]})
+                equals (expected: 'true', actual: "${properties["mvnbuild"]}")
             }
             steps {
                 sh 'mvn -B -DskipTests clean package'
